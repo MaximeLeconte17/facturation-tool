@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16
+    container_name: minifacture-db
+    environment:
+      POSTGRES_DB: minifacture
+      POSTGRES_USER: minifacture
+      POSTGRES_PASSWORD: minifacture
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
