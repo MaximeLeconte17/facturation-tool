@@ -1,2 +1,6 @@
-<app-client-form (clientCreate)="reload()"></app-client-form>
-<app-list [datas]="clients()" (remove)="remove($event)"></app-list>
+<div class="layout">
+  <app-navbar class="navbar"/>
+  <main>
+<router-outlet />
+</main>
+</div>

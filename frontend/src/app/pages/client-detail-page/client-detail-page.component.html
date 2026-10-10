@@ -1,0 +1,20 @@
+<a routerLink="/clients">← Retour aux clients</a>
+
+@if (error()) {
+  <p class="erreur">{{ error() }}</p>
+} @else {
+  @if (client(); as c) {
+    <h1>{{ c.nom }}</h1>
+
+    <section>
+      <p>{{ c.email }}</p>
+      <p>{{ c.adresse }}</p>
+    </section>
+
+    <section>
+      <h2>Factures</h2>
+      <button type="button" disabled>Nouvelle facture</button>
+      <p>Aucune facture pour le moment.</p>
+    </section>
+  }
+}

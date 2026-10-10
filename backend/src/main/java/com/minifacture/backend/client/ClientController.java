@@ -35,12 +35,18 @@ public class ClientController {
         return clientRepository.save(client);
     }
 
+    @GetMapping("/{id}")
+    public Client getById(@PathVariable Long id) {
+        return clientRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client introuvable"));
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void supprimer(@PathVariable Long id) {
-    if (!clientRepository.existsById(id)) {
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Client introuvable");
+    public void deleteById(@PathVariable Long id) {
+        if (!clientRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Client introuvable");
+        }
+        clientRepository.deleteById(id);
     }
-    clientRepository.deleteById(id);
-}
 }

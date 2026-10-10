@@ -1,0 +1,17 @@
+<form class="form" [formGroup]="form" (ngSubmit)="submit()">
+    <p-inputgroup>
+        <input pInputText formControlName="nom" placeholder="Nom" />
+    </p-inputgroup>
+    <p-inputgroup>
+        <input pInputText formControlName="email" placeholder="Email" />
+    </p-inputgroup>
+    <p-inputgroup>
+        <input pInputText formControlName="adresse" placeholder="Adresse" />
+    </p-inputgroup>
+
+    <button type="submit">Créer</button>
+
+    @if (erreur()) {
+        <small class="erreur">{{ erreur() }}</small>
+    }
+</form>

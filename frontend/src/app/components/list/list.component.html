@@ -12,7 +12,23 @@
       <td>{{ data.nom }}</td>
       <td>{{ data.email }}</td>
       <td>{{ data.adresse }}</td>
-      <td> <button type="button" (click)="remove.emit(data.id)" title="remove" class="delete-button" > <i class="pi pi-trash"></i> </button> </td>
-    </tr>
+<td class="btn-container">
+  <p-button
+    icon="pi pi-trash"
+    severity="danger"
+    [text]="true"
+    [rounded]="true"
+    size="small"
+    (onClick)="remove.emit(data.id)"
+    ariaLabel="Supprimer"
+  />
+  <p-button
+    icon="pi pi-arrow-right"
+    [rounded]="true"
+    size="small"
+    (onClick)="open.emit(data.id)"
+    ariaLabel="Naviguer"
+  />
+</td>    </tr>
   </ng-template>
 </p-table>
