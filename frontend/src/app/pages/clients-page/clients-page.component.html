@@ -1,3 +1,7 @@
 <h1>Clients</h1>
 <app-form [erreur]="erreur()" (submitted)="create($event)"></app-form>
-<app-list [datas]="clients()" (remove)="remove($event)" (open)="open($event)"></app-list>
+<app-search
+  placeholder="Rechercher un client (nom, email, adresse)"
+  (searched)="terme.set($event)">
+</app-search>
+<app-list [datas]="clientsFiltres()" (remove)="remove($event)" (open)="open($event)"></app-list>

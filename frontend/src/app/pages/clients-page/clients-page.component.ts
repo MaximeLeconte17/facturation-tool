@@ -1,13 +1,14 @@
-import { Component, inject, OnInit, signal, viewChild } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, viewChild } from '@angular/core';
 import { ClientService } from '../../client.service';
 import { Client } from '../../client.model';
 import { ListComponent } from '../../components/list/list.component';
 import { FormComponent } from '../../components/form/form.component';
 import { Router } from '@angular/router';
+import { SearchComponent } from '../../components/search/search.component';
 
 @Component({
   selector: 'app-clients-page',
-  imports: [ListComponent, FormComponent],
+  imports: [ListComponent, FormComponent, SearchComponent],
   templateUrl: './clients-page.component.html',
   styleUrl: './clients-page.component.scss'
 })
@@ -18,6 +19,8 @@ export class ClientsPageComponent implements OnInit {
   clients = signal<Client[]>([]);
   erreur = signal<string | null>(null);
   form = viewChild.required(FormComponent);
+  terme = signal('');
+
 
   ngOnInit(): void {
     this.reload();
@@ -51,4 +54,19 @@ export class ClientsPageComponent implements OnInit {
   remove(id: number): void {
     this.clientService.delete(id).subscribe(() => this.reload());
   }
+
+  clientsFiltres = computed(() => {
+  const terme = normaliser(this.terme().trim());
+  if (!terme) return this.clients();
+
+  return this.clients().filter(client =>
+    [client.nom, client.email, client.adresse].some(champ =>
+      normaliser(champ ?? '').includes(terme)
+    )
+  );
+});
+}
+
+function normaliser(texte: string): string {
+  return texte.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
 }
