@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -31,4 +34,13 @@ public class ClientController {
     public Client create(@Valid @RequestBody Client client) {
         return clientRepository.save(client);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void supprimer(@PathVariable Long id) {
+    if (!clientRepository.existsById(id)) {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Client introuvable");
+    }
+    clientRepository.deleteById(id);
+}
 }
