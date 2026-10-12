@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.minifacture.backend.imports.ExcelImportService;
+import com.minifacture.backend.imports.ImportResult;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+
 import java.util.List;
 
 @RestController
@@ -19,9 +25,15 @@ import java.util.List;
 public class ClientController {
 
     private final ClientRepository clientRepository;
+    private final ExcelImportService excelImportService;
+    private final ClientImportDefinition clientImportDefinition;
 
-    public ClientController(ClientRepository clientRepository) {
+    public ClientController(ClientRepository clientRepository,
+            ExcelImportService excelImportService,
+            ClientImportDefinition clientImportDefinition) {
         this.clientRepository = clientRepository;
+        this.excelImportService = excelImportService;
+        this.clientImportDefinition = clientImportDefinition;
     }
 
     @GetMapping
@@ -33,6 +45,19 @@ public class ClientController {
     @ResponseStatus(HttpStatus.CREATED)
     public Client create(@Valid @RequestBody Client client) {
         return clientRepository.save(client);
+    }
+
+    @PostMapping("/import")
+    public ImportResult importClients(@RequestParam("file") MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        if (file.isEmpty() || fileName == null || !fileName.toLowerCase().endsWith(".xlsx")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "An .xlsx file is required");
+        }
+        try {
+            return excelImportService.importFile(file.getInputStream(), clientImportDefinition);
+        } catch (IOException | IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unreadable or too large file");
+        }
     }
 
     @GetMapping("/{id}")

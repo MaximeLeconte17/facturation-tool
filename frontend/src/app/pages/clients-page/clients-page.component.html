@@ -4,4 +4,18 @@
   placeholder="Rechercher un client (nom, email, adresse)"
   (searched)="terme.set($event)">
 </app-search>
+<app-file-import label="Importer depuis Excel" (fileSelected)="importFile($event)"></app-file-import>
+
+@if (report(); as r) {
+  <div class="report">
+    <p>{{ r.imported }} client(s) importé(s), {{ r.errors.length }} ligne(s) en erreur.</p>
+    @if (r.errors.length) {
+      <ul>
+        @for (e of r.errors; track $index) {
+          <li>{{ e }}</li>
+        }
+      </ul>
+    }
+  </div>
+}
 <app-list [datas]="clientsFiltres()" (remove)="remove($event)" (open)="open($event)"></app-list>

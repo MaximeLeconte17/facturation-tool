@@ -4,3 +4,9 @@ export interface Client {
   email: string;
   adresse?: string;
 }
+
+export interface ImportResult {
+  imported: number;
+  ignored: number;
+  errors: string[];
+}

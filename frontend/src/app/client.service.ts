@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Client } from './client.model';
+import { Client, ImportResult } from './client.model';
 
 const API_URL = 'http://127.0.0.1:8080/api/clients';
 
@@ -24,6 +24,12 @@ export class ClientService {
   }
 
   getClientById(id: number): Observable<Client> {
-  return this.http.get<Client>(`${API_URL}/${id}`);
-}
+  return this.http.get<Client>(`${API_URL}/${id}`);  
+  }
+
+  importFile(file: File): Observable<ImportResult> {
+  const data = new FormData();
+  data.append('file', file);
+  return this.http.post<ImportResult>(`${API_URL}/import`, data);
+  }
 }

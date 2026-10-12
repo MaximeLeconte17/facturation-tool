@@ -1,14 +1,15 @@
 import { Component, computed, inject, OnInit, signal, viewChild } from '@angular/core';
 import { ClientService } from '../../client.service';
-import { Client } from '../../client.model';
+import { Client, ImportResult } from '../../client.model';
 import { ListComponent } from '../../components/list/list.component';
 import { FormComponent } from '../../components/form/form.component';
 import { Router } from '@angular/router';
 import { SearchComponent } from '../../components/search/search.component';
+import { FileImportComponent } from '../../components/file-import/file-import.component';
 
 @Component({
   selector: 'app-clients-page',
-  imports: [ListComponent, FormComponent, SearchComponent],
+  imports: [ListComponent, FormComponent, SearchComponent, FileImportComponent],
   templateUrl: './clients-page.component.html',
   styleUrl: './clients-page.component.scss'
 })
@@ -20,6 +21,8 @@ export class ClientsPageComponent implements OnInit {
   erreur = signal<string | null>(null);
   form = viewChild.required(FormComponent);
   terme = signal('');
+  report = signal<ImportResult | null>(null);
+
 
 
   ngOnInit(): void {
@@ -46,6 +49,20 @@ export class ClientsPageComponent implements OnInit {
       error: () => this.erreur.set('Nom et email valides requis')
     });
   }
+
+  importFile(file: File): void {
+  this.clientService.importFile(file).subscribe({
+    next: result => {
+      this.report.set(result);
+      this.reload();
+    },
+    error: () => this.report.set({
+      imported: 0,
+      ignored: 0,
+      errors: ['Import impossible : fichier .xlsx invalide ou trop volumineux']
+    })
+  });
+}
 
   open(id: number): void {
   this.router.navigate(['/clients', id]);

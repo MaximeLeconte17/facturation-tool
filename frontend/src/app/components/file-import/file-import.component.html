@@ -1,0 +1,2 @@
+<input #fileInput type="file" hidden [accept]="accept()" (change)="onFileChange(fileInput)" />
+<button type="button" (click)="fileInput.click()">{{ label() }}</button>
