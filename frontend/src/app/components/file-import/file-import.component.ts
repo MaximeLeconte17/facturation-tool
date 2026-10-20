@@ -1,8 +1,10 @@
 import { Component, input, output } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-file-import',
   templateUrl: './file-import.component.html',
+  imports: [ButtonModule],
   styleUrl: './file-import.component.scss'
 })
 export class FileImportComponent {

@@ -1,4 +1,5 @@
 package com.minifacture.backend.client;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,8 +33,19 @@ public class Client {
         this.adresse = adresse;
     }
 
-    public Long getId() { return id; }
-    public String getNom() { return nom; }
-    public String getEmail() { return email; }
-    public String getAdresse() { return adresse; }
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return nom;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
 }

@@ -14,6 +14,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.minifacture.backend.imports.ExcelImportService;
 import com.minifacture.backend.imports.ImportResult;
+import com.minifacture.backend.invoice.InvoiceRepository;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -27,13 +29,15 @@ public class ClientController {
     private final ClientRepository clientRepository;
     private final ExcelImportService excelImportService;
     private final ClientImportDefinition clientImportDefinition;
+    private final InvoiceRepository invoiceRepository;
 
     public ClientController(ClientRepository clientRepository,
             ExcelImportService excelImportService,
-            ClientImportDefinition clientImportDefinition) {
+            ClientImportDefinition clientImportDefinition, InvoiceRepository invoiceRepository) {
         this.clientRepository = clientRepository;
         this.excelImportService = excelImportService;
         this.clientImportDefinition = clientImportDefinition;
+        this.invoiceRepository = invoiceRepository;
     }
 
     @GetMapping
@@ -71,6 +75,9 @@ public class ClientController {
     public void deleteById(@PathVariable Long id) {
         if (!clientRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Client introuvable");
+        }
+        if (invoiceRepository.existsByClientId(id)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Client has invoices and cannot be deleted");
         }
         clientRepository.deleteById(id);
     }

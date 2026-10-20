@@ -1,0 +1,53 @@
+.sidebar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-sizing: border-box;
+  height: 100vh;
+  padding: 1.25rem 0.75rem;
+  background: var(--p-content-background);
+  border-right: 1px solid var(--p-content-border-color);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+
+  i {
+    color: var(--p-primary-color);
+  }
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 0.5rem;
+    color: var(--p-text-muted-color);
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover {
+      background: var(--p-content-hover-background);
+      color: var(--p-text-color);
+    }
+
+    &.active {
+      background: color-mix(in srgb, var(--p-primary-color) 12%, transparent);
+      color: var(--p-primary-color);
+    }
+  }
+}

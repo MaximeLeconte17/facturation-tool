@@ -1,5 +1,15 @@
-<p-megamenu
-  [model]="items"
-  orientation="vertical"
-  >
-</p-megamenu>
+<aside class="sidebar">
+  <div class="brand">
+    <i class="pi pi-receipt"></i>
+    <span>Factup</span>
+  </div>
+
+  <nav>
+    @for (item of items; track item.routerLink) {
+      <a [routerLink]="item.routerLink" routerLinkActive="active">
+        <i class="pi" [class]="'pi ' + item.icon"></i>
+        <span>{{ item.label }}</span>
+      </a>
+    }
+  </nav>
+</aside>

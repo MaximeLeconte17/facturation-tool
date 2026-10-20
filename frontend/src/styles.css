@@ -1,6 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
 @import "primeicons/primeicons.css";
 
-button {
-    cursor: pointer;
+:root {
+  --app-bg: var(--p-surface-50);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --app-bg: var(--p-surface-950);
+  }
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--app-bg);
+  color: var(--p-text-color);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }

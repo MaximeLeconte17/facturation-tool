@@ -1,2 +1,4 @@
 <input #fileInput type="file" hidden [accept]="accept()" (change)="onFileChange(fileInput)" />
-<button type="button" (click)="fileInput.click()">{{ label() }}</button>
+<button   icon="pi pi-upload"
+  severity="secondary"
+ type="button" (click)="fileInput.click()">{{ label() }}</button>
