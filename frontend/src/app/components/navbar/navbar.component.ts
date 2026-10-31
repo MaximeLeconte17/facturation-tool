@@ -14,6 +14,6 @@ export class NavbarComponent {
   items: MegaMenuItem[] = [
     { label: 'Accueil', icon: 'pi pi-home', routerLink: '/home'  },
     { label: 'Clients', icon: 'pi pi-users', routerLink: '/clients'  },
-    { label: 'Factures', icon: 'pi pi-file'}
+    { label: 'Factures', icon: 'pi pi-file', routerLink: '/factures'}
   ];
 }

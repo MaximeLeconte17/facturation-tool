@@ -1,0 +1,59 @@
+  <p-button label="Nouvelle facture" icon="pi pi-plus" (onClick)="create()" />
+
+<div class="toolbar">
+  <app-search placeholder="Rechercher par numéro ou client" (searched)="term.set($event)" />
+  <p-selectbutton
+    [options]="filterOptions"
+    optionLabel="label"
+    optionValue="value"
+    [allowEmpty]="false"
+    [ngModel]="filter()"
+    (ngModelChange)="filter.set($event)" />
+</div>
+
+<div class="card">
+  <p-table
+    [value]="filteredInvoices()"
+    [paginator]="filteredInvoices().length > 10"
+    [rows]="10"
+    [rowHover]="true"
+    dataKey="id">
+
+    <ng-template #header>
+      <tr>
+        <th>Numéro</th>
+        <th>Client</th>
+        <th>Émission</th>
+        <th>Échéance</th>
+        <th class="num">Total TTC</th>
+        <th>Statut</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-invoice>
+      <tr class="row" (click)="open(invoice.id)">
+        <td class="number">{{ invoice.number ?? '—' }}</td>
+        <td>{{ invoice.clientName }}</td>
+        <td class="muted">{{ invoice.issueDate ? (invoice.issueDate | date: 'dd/MM/yyyy') : '—' }}</td>
+        <td class="muted">{{ invoice.dueDate | date: 'dd/MM/yyyy' }}</td>
+        <td class="num">{{ invoice.totalInclTax | currency: 'EUR' }}</td>
+        <td>
+          <p-tag
+            [value]="statusView(invoice).label"
+            [severity]="statusView(invoice).severity" />
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="6">
+          <div class="empty">
+            <i class="pi pi-file"></i>
+            <p>Aucune facture trouvée</p>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

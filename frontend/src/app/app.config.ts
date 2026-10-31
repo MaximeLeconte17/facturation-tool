@@ -8,6 +8,11 @@ import { routes } from './app.routes';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { definePreset } from '@primeuix/themes';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+
+registerLocaleData(localeFr);
 
 
 const MiniFacturePreset = definePreset(Aura, {
@@ -32,5 +37,7 @@ export const appConfig: ApplicationConfig = {
     ConfirmationService,
     MessageService,
     provideRouter(routes, withComponentInputBinding()),
-    provideHttpClient()]
+    provideHttpClient(),
+  { provide: LOCALE_ID, useValue: 'fr-FR' }],
+    
 };
